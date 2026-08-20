@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    # Reuses backend/.env for PORT, CLIENT_URL, OPENROUTER_API_KEY, OPENROUTER_MODEL
+    # (do not duplicate secrets into this file) — only MONGO_URI is overridden
+    # below to point at the mongodb service instead of whatever's in .env.
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/stunning
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # The browser talks to the backend directly on the host-published
+        # port — not the internal "backend" service name, which only
+        # resolves inside the Docker network.
+        VITE_API_URL: http://localhost:5000/api
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

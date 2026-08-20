@@ -1,0 +1,37 @@
+/* App-level layout styles */
+/* Component-specific styles live alongside their components */
+/* This file is kept minimal — tokens live in index.css */
+
+.app-shell {
+  min-height: 100svh;
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+/* ── IntegrationSelector ── */
+
+.int-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.int-selector__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.int-selector__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── Textarea placeholder color ── */
+
+textarea::placeholder {
+  color: var(--text-muted);
+}

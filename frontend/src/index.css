@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+/*
+ * Theme token system
+ * Default: dark (AI builder tools are dark-native)
+ * Light: opt-in via [data-theme="light"] on <html>
+ *
+ * Palette rationale:
+ *   Base: deep blue-black (#080c14) — reads "developer tool", not generic SaaS dark
+ *   Accent: mid-violet (#7c5cfc) — distinctive without being acid-green cliché
+ *   Surface layering: 3 levels of depth for hierarchy without harsh contrast
+ */
+
+:root {
+  /* === Dark theme (default) === */
+
+  /* Backgrounds — 3 levels of depth */
+  --bg:           #080c14;   /* page background — deep blue-black */
+  --surface:      #0f1420;   /* cards, panels */
+  --surface-high: #161d2e;   /* elevated elements, modals, active states */
+
+  /* Borders */
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-focus: rgba(124, 92, 252, 0.5);
+
+  /* Text */
+  --text-primary:   #e8eaf0;
+  --text-secondary: #8b92a8;
+  --text-muted:     #4a5168;
+
+  /* Accent — violet */
+  --accent:         #7c5cfc;
+  --accent-hover:   #9575ff;
+  --accent-subtle:  rgba(124, 92, 252, 0.12);
+  --accent-border:  rgba(124, 92, 252, 0.35);
+
+  /* Semantic */
+  --success:  #22c55e;
+  --error:    #f87171;
+  --warning:  #fbbf24;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+
+  /* Radii */
+  --radius-sm:  6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-base:   220ms ease;
+  --transition-slow:   350ms ease;
+}
+
+/* === Light theme (opt-in) === */
+[data-theme="light"] {
+  --bg:           #f4f5f9;
+  --surface:      #ffffff;
+  --surface-high: #edf0f7;
+
+  --border:       rgba(0, 0, 0, 0.08);
+  --border-focus: rgba(96, 64, 232, 0.45);
+
+  --text-primary:   #0d1117;
+  --text-secondary: #4b5470;
+  --text-muted:     #9299b0;
+
+  --accent:         #6040e8;
+  --accent-hover:   #7c5cfc;
+  --accent-subtle:  rgba(96, 64, 232, 0.08);
+  --accent-border:  rgba(96, 64, 232, 0.3);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.14);
+}
+
+/* === Base reset & global styles === */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Smooth theme transitions on color-related properties only */
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* === Scrollbar (dark theme) === */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* === Utility: smooth color transitions for themed elements === */
+.theme-transition,
+.theme-transition * {
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base) !important;
+}
+
+/* === Code blocks === */
+pre, code {
+  font-family: var(--font-mono);
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
